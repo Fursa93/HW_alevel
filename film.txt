@@ -1,0 +1,348 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Пароль пользователя postgres:
+psql (15.2)
+ПРЕДУПРЕЖДЕНИЕ: Кодовая страница консоли (866) отличается от основной
+                страницы Windows (1251).
+                8-битовые (русские) символы могут отображаться некорректно.
+                Подробнее об этом смотрите документацию psql, раздел
+                "Notes for Windows users".
+Введите "help", чтобы получить справку.
+
+postgres=# \l
+                                                            ╤яшёюъ срч фрээ√ї
+      ╚ь       | ┬ырфхыхЎ | ╩юфшЁютър |     LC_COLLATE      |      LC_CTYPE       | ыюъры№ ICU | ╧ЁютрщфхЁ ыюърыш |     ╧Ёртр фюёЄєяр
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(8 ёЄЁюъ)
+
+
+postgres=# data base films;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "data")
+СТРОКА 1: data base films;
+          ^
+postgres=#  drop table movies
+postgres-#  drop table movies;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "drop")
+СТРОКА 2:  drop table movies;
+           ^
+postgres=# \l
+                                                            ╤яшёюъ срч фрээ√ї
+      ╚ь       | ┬ырфхыхЎ | ╩юфшЁютър |     LC_COLLATE      |      LC_CTYPE       | ыюъры№ ICU | ╧ЁютрщфхЁ ыюърыш |     ╧Ёртр фюёЄєяр
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(8 ёЄЁюъ)
+
+
+postgres=# create database films;
+CREATE DATABASE
+postgres=# \! chcp 1251
+Текущая кодовая страница: 1251
+postgres=# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(9 строк)
+
+^Cpostgres=#
+postgres=# \c films
+Вы подключены к базе данных "films" как пользователь "postgres".
+films=# \d
+Отношения не найдены.
+films=# create table actors (id serial, word varchar(255), vocabulary_id integer);
+CREATE TABLE
+films=# \d
+                    Список отношений
+ Схема  |      Имя      |        Тип         | Владелец
+--------+---------------+--------------------+----------
+ public | actors        | таблица            | postgres
+ public | actors_id_seq | последовательность | postgres
+(2 строки)
+
+
+films=# \d actors
+                                               Таблица "public.actors"
+    Столбец    |          Тип           | Правило сортировки | Допустимость NULL |            По умолчанию
+---------------+------------------------+--------------------+-------------------+------------------------------------
+ id            | integer                |                    | not null          | nextval('actors_id_seq'::regclass)
+ word          | character varying(255) |                    |                   |
+ vocabulary_id | integer                |                    |                   |
+
+
+films=# \d actors_id_seq
+                        Последовательность "public.actors_id_seq"
+   Тип   | Начальное_значение | Минимум |  Максимум  | Шаг | Зацикливается? | Кешируется
+---------+--------------------+---------+------------+-----+----------------+------------
+ integer |                  1 |       1 | 2147483647 |   1 | no             |          1
+Владелец: public.actors.id
+
+
+films=# alter table actors rename column word to full_name;
+ALTER TABLE
+films=# \d actors
+                                               Таблица "public.actors"
+    Столбец    |          Тип           | Правило сортировки | Допустимость NULL |            По умолчанию
+---------------+------------------------+--------------------+-------------------+------------------------------------
+ id            | integer                |                    | not null          | nextval('actors_id_seq'::regclass)
+ full_name     | character varying(255) |                    |                   |
+ vocabulary_id | integer                |                    |                   |
+
+
+films=# alter table actors rename column vocabulary_id to birth_data;
+ALTER TABLE
+films=# \d actors
+                                              Таблица "public.actors"
+  Столбец   |          Тип           | Правило сортировки | Допустимость NULL |            По умолчанию
+------------+------------------------+--------------------+-------------------+------------------------------------
+ id         | integer                |                    | not null          | nextval('actors_id_seq'::regclass)
+ full_name  | character varying(255) |                    |                   |
+ birth_data | integer                |                    |                   |
+
+
+films=# insert into actors (full_name, birth_data) values ('Mads_Mikkelsen', '22_11_1965');
+ОШИБКА:  неверный синтаксис для типа integer: "22_11_1965"
+СТРОКА 1: ...(full_name, birth_data) values ('Mads_Mikkelsen', '22_11_196...
+                                                               ^
+films=# insert into actors (full_name, birth_data) values ('Mads_Mikkelsen', 22_11_1965);
+ОШИБКА:  мусорное содержимое после числовой константы (примерное положение: "22_")
+СТРОКА 1: ...(full_name, birth_data) values ('Mads_Mikkelsen', 22_11_1965...
+                                                               ^
+films=# insert into actors (full_name, birth_data) values ('Mads_Mikkelsen', 1965);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Gary_Oldman', 1958);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('James_McAvoy', 1979);
+INSERT 0 1
+films=#  insert into actors (full_name, birth_data) values ('Javier_Bardem', 1969);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Vincent_Cassel', 1966);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Antonio_Banderas', 1960);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Colin_Firth', 1960);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Christoph_Waltz', 1956);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Jude_Law', 1972);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Tom_Hardy', 1977);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Russell_Crowe', 1964);
+INSERT 0 1
+films=# insert into actors (full_name, birth_data) values ('Anthony_Hopkins',1937);
+INSERT 0 1
+films=# select * from actors;
+ id |    full_name     | birth_data
+----+------------------+------------
+  1 | Mads_Mikkelsen   |       1965
+  2 | Gary_Oldman      |       1958
+  3 | James_McAvoy     |       1979
+  4 | Javier_Bardem    |       1969
+  5 | Vincent_Cassel   |       1966
+  6 | Antonio_Banderas |       1960
+  7 | Colin_Firth      |       1960
+  8 | Christoph_Waltz  |       1956
+  9 | Jude_Law         |       1972
+ 10 | Tom_Hardy        |       1977
+ 11 | Russell_Crowe    |       1964
+ 12 | Anthony_Hopkins  |       1937
+(12 строк)
+
+
+films=# create table films (id serial, name_film varchar(150), country varchar(150), film genre varchar(150));
+ОШИБКА:  ошибка синтаксиса (примерное положение: "varchar")
+СТРОКА 1: ...lm varchar(150), country varchar(150), film genre varchar(15...
+                                                               ^
+films=# create table films (id serial, name_film varchar(255), country varchar(255), film genre varchar(255));
+ОШИБКА:  ошибка синтаксиса (примерное положение: "varchar")
+СТРОКА 1: ...lm varchar(255), country varchar(255), film genre varchar(25...
+                                                               ^
+films=# create table films (id serial, name_film varchar(150), country varchar(150), film_genre varchar(150));
+CREATE TABLE
+films=# select * from films;
+ id | name_film | country | film_genre
+----+-----------+---------+------------
+(0 строк)
+
+
+films=# insert into films ( name_film,  country, film_genre) values ('Interstellar', 'Great_Britain_and_USA', 'fantasy_adventure');
+INSERT 0 1
+films=# select * from films;
+ id |  name_film   |        country        |    film_genre
+----+--------------+-----------------------+-------------------
+  1 | Interstellar | Great_Britain_and_USA | fantasy_adventure
+(1 строка)
+
+
+films=#  insert into films ( name_film,  country, film_genre) values ('The_wolf_of_wall_street', 'USA', 'biographical_dramatic_criminal');
+INSERT 0 1
+films=# select * from films;
+ id |        name_film        |        country        |           film_genre
+----+-------------------------+-----------------------+--------------------------------
+  1 | Interstellar            | Great_Britain_and_USA | fantasy_adventure
+  2 | The_wolf_of_wall_street | USA                   | biographical_dramatic_criminal
+(2 строки)
+
+
+films=#  insert into films ( name_film,  country, film_genre) values ('Django_Unchained', 'United States', 'drama');
+INSERT 0 1
+films=# insert into films ( name_film,  country, film_genre) values ('Intouchables', 'France', 'comedy_drama');
+INSERT 0 1
+films=# select * from films;
+ id |        name_film        |        country        |           film_genre
+----+-------------------------+-----------------------+--------------------------------
+  1 | Interstellar            | Great_Britain_and_USA | fantasy_adventure
+  2 | The_wolf_of_wall_street | USA                   | biographical_dramatic_criminal
+  3 | Django_Unchained        | United States         | drama
+  4 | Intouchables            | France                | comedy_drama
+(4 строки)
+
+
+films=#  insert into films ( name_film,  country, film_genre) values (' Inception', 'USA_Great_Britain','Science_fiction_thriller_drama');
+INSERT 0 1
+films=# insert into films ( name_film,  country, film_genre) values (' Inglourious_Basterds', 'Unites_States_Germany', 'miilitary_drama');
+INSERT 0 1
+films=# insert into films ( name_film,  country, film_genre) values ('The_dark_knight', 'USA', 'action_adventure');
+INSERT 0 1
+films=# select * from films;
+ id |        name_film        |        country        |           film_genre
+----+-------------------------+-----------------------+--------------------------------
+  1 | Interstellar            | Great_Britain_and_USA | fantasy_adventure
+  2 | The_wolf_of_wall_street | USA                   | biographical_dramatic_criminal
+  3 | Django_Unchained        | United States         | drama
+  4 | Intouchables            | France                | comedy_drama
+  5 |  Inception              | USA_Great_Britain     | Science_fiction_thriller_drama
+  6 |  Inglourious_Basterds   | Unites_States_Germany | miilitary_drama
+  7 | The_dark_knight         | USA                   | action_adventure
+(7 строк)
+
+
+films=# insert into films ( name_film,  country, film_genre) values ('Into_the_wild', 'USA', 'drama_adventure');
+INSERT 0 1
+films=#  select * from films;
+ id |        name_film        |        country        |           film_genre
+----+-------------------------+-----------------------+--------------------------------
+  1 | Interstellar            | Great_Britain_and_USA | fantasy_adventure
+  2 | The_wolf_of_wall_street | USA                   | biographical_dramatic_criminal
+  3 | Django_Unchained        | United States         | drama
+  4 | Intouchables            | France                | comedy_drama
+  5 |  Inception              | USA_Great_Britain     | Science_fiction_thriller_drama
+  6 |  Inglourious_Basterds   | Unites_States_Germany | miilitary_drama
+  7 | The_dark_knight         | USA                   | action_adventure
+  8 | Into_the_wild           | USA                   | drama_adventure
+(8 строк)
+
+
+films=# create table directors (id serial,  full_name varchar(150), birth_data varchar(150), the_first_film  varchar(150), the_last_film varchar(150));
+CREATE TABLE
+films=# select * from directors;
+ id | full_name | birth_data | the_first_film | the_last_film
+----+-----------+------------+----------------+---------------
+(0 строк)
+
+
+films=#  insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Sir_Peter_Robert_Jackson', '31_10_1961', 'the_valley', 'The_Beatles');
+INSERT 0 1
+films=# select * from directors;
+ id |        full_name         | birth_data | the_first_film | the_last_film
+----+--------------------------+------------+----------------+---------------
+  1 | Sir_Peter_Robert_Jackson | 31_10_1961 | the_valley     | The_Beatles
+(1 строка)
+
+
+films=#  insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Martin_Charles_Scorsese', 'Vezuviy_VI', 'Flower_moon_killers');
+ОШИБКА:  INSERT содержит больше целевых столбцов, чем выражений
+СТРОКА 1: ...rectors ( full_name, birth_data,  the_first_film, the_last_f...
+                                                               ^
+films=#  insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Martin_Charles_Scorsese','17_11_1942', 'Vezuviy_VI', 'Flower_moon_killers');
+INSERT 0 1
+films=#  insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Steven_Allan_Spielberg', '18_12_1946', 'Wandering', 'Fabelmans');
+INSERT 0 1
+films=# insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Christopher_Jonathan_James_Nolan', '30_07_1970', 'Following', 'Oppenheimer');
+INSERT 0 1
+films=#  select * from directors;
+ id |            full_name             | birth_data | the_first_film |    the_last_film
+----+----------------------------------+------------+----------------+---------------------
+  1 | Sir_Peter_Robert_Jackson         | 31_10_1961 | the_valley     | The_Beatles
+  2 | Martin_Charles_Scorsese          | 17_11_1942 | Vezuviy_VI     | Flower_moon_killers
+  3 | Steven_Allan_Spielberg           | 18_12_1946 | Wandering      | Fabelmans
+  4 | Christopher_Jonathan_James_Nolan | 30_07_1970 | Following      | Oppenheimer
+(4 строки)
+
+
+films=# insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Steven_Andrew_Soderbergh', '14_01_1963', 'Yinston', 'Kimmi');
+INSERT 0 1
+films=# insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('Finish', 'finish', 'finish', 'finish');
+INSERT 0 1
+films=# insert into directors ( full_name, birth_data,  the_first_film, the_last_film) values ('I', 'am', 'tired', 'BYE_bye');
+INSERT 0 1
+films=# select * from directors;
+ id |            full_name             | birth_data | the_first_film |    the_last_film
+----+----------------------------------+------------+----------------+---------------------
+  1 | Sir_Peter_Robert_Jackson         | 31_10_1961 | the_valley     | The_Beatles
+  2 | Martin_Charles_Scorsese          | 17_11_1942 | Vezuviy_VI     | Flower_moon_killers
+  3 | Steven_Allan_Spielberg           | 18_12_1946 | Wandering      | Fabelmans
+  4 | Christopher_Jonathan_James_Nolan | 30_07_1970 | Following      | Oppenheimer
+  5 | Steven_Andrew_Soderbergh         | 14_01_1963 | Yinston        | Kimmi
+  6 | Finish                           | finish     | finish         | finish
+  7 | I                                | am         | tired          | BYE_bye
+(7 строк)
+
+
+films=# delete from directors WHERE 6 <Id;
+DELETE 1
+films=# select * from directors;
+ id |            full_name             | birth_data | the_first_film |    the_last_film
+----+----------------------------------+------------+----------------+---------------------
+  1 | Sir_Peter_Robert_Jackson         | 31_10_1961 | the_valley     | The_Beatles
+  2 | Martin_Charles_Scorsese          | 17_11_1942 | Vezuviy_VI     | Flower_moon_killers
+  3 | Steven_Allan_Spielberg           | 18_12_1946 | Wandering      | Fabelmans
+  4 | Christopher_Jonathan_James_Nolan | 30_07_1970 | Following      | Oppenheimer
+  5 | Steven_Andrew_Soderbergh         | 14_01_1963 | Yinston        | Kimmi
+  6 | Finish                           | finish     | finish         | finish
+(6 строк)
+
+
+films=# delete from directors WHERE 5<Id;
+DELETE 1
+films=# select * from directors;
+ id |            full_name             | birth_data | the_first_film |    the_last_film
+----+----------------------------------+------------+----------------+---------------------
+  1 | Sir_Peter_Robert_Jackson         | 31_10_1961 | the_valley     | The_Beatles
+  2 | Martin_Charles_Scorsese          | 17_11_1942 | Vezuviy_VI     | Flower_moon_killers
+  3 | Steven_Allan_Spielberg           | 18_12_1946 | Wandering      | Fabelmans
+  4 | Christopher_Jonathan_James_Nolan | 30_07_1970 | Following      | Oppenheimer
+  5 | Steven_Andrew_Soderbergh         | 14_01_1963 | Yinston        | Kimmi
+(5 строк)
+
