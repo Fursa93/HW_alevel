@@ -1,0 +1,709 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Пароль пользователя postgres:
+psql (15.2)
+ПРЕДУПРЕЖДЕНИЕ: Кодовая страница консоли (866) отличается от основной
+                страницы Windows (1251).
+                8-битовые (русские) символы могут отображаться некорректно.
+                Подробнее об этом смотрите документацию psql, раздел
+                "Notes for Windows users".
+Введите "help", чтобы получить справку.
+
+postgres=# \! chcp 1251
+Текущая кодовая страница: 1251
+postgres=#
+postgres=# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(9 строк)
+
+
+postgres=# create database HW-12;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "-")
+СТРОКА 1: create database HW-12;
+                            ^
+postgres=# create database HW12;
+CREATE DATABASE
+postgres=# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ hw12          | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(10 строк)
+
+
+postgres=# \c HW12
+подключиться к серверу "localhost" (::1), порту 5432 не удалось: ВАЖНО:  база данных "HW12" не существует
+Сохранено предыдущее подключение
+postgres=# \c hw12
+Вы подключены к базе данных "hw12" как пользователь "postgres".
+hw12=# \d hw12
+Отношение "hw12" не найдено.
+hw12=# create table word (id serial, word varchar(255), vocabulary_id integer);
+CREATE TABLE
+hw12=# create table vocabulary (id serial, name varchar(255), info text);
+CREATE TABLE
+hw12=# \d vocabulary
+                                            Таблица "public.vocabulary"
+ Столбец |          Тип           | Правило сортировки | Допустимость NULL |              По умолчанию
+---------+------------------------+--------------------+-------------------+----------------------------------------
+ id      | integer                |                    | not null          | nextval('vocabulary_id_seq'::regclass)
+ name    | character varying(255) |                    |                   |
+ info    | text                   |                    |                   |
+
+
+hw12=# \d word
+                                               Таблица "public.word"
+    Столбец    |          Тип           | Правило сортировки | Допустимость NULL |           По умолчанию
+---------------+------------------------+--------------------+-------------------+----------------------------------
+ id            | integer                |                    | not null          | nextval('word_id_seq'::regclass)
+ word          | character varying(255) |                    |                   |
+ vocabulary_id | integer                |                    |                   |
+
+
+hw12=# insert into vocabulary (name) values ('HW_12_practice');
+INSERT 0 1
+hw12=# insert into vocabulary (name) values ('nyzno_practikovatsya');
+INSERT 0 1
+hw12=# insert into vocabulary (name) values ('IT'), ('Silicon Valley season 1');
+INSERT 0 2
+hw12=# insert into vocabulary (name) values ('практикуюсь'), ('на'), ('максимум');
+INSERT 0 3
+hw12=# select *from v0cabulary;
+ОШИБКА:  отношение "v0cabulary" не существует
+СТРОКА 1: select *from v0cabulary;
+                       ^
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+(7 строк)
+
+
+hw12=# insert into vocabulary select * from vocabulary;
+INSERT 0 7
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+(14 строк)
+
+
+hw12=# select 1;
+ ?column?
+----------
+        1
+(1 строка)
+
+
+hw12=# SELECT AGE(timestamp '1993_11_12', timestamp '2023_03_27');
+            age
+----------------------------
+ -29 years -4 mons -15 days
+(1 строка)
+
+
+hw12=# select CURRENT_TIME;
+   current_time
+-------------------
+ 16:12:35.61267+03
+(1 строка)
+
+
+hw12=# select * from books;
+ОШИБКА:  отношение "books" не существует
+СТРОКА 1: select * from books;
+                        ^
+hw12=# select * from py6;
+ОШИБКА:  отношение "py6" не существует
+СТРОКА 1: select * from py6;
+                        ^
+hw12=# select * from movies;
+ОШИБКА:  отношение "movies" не существует
+СТРОКА 1: select * from movies;
+                        ^
+hw12=# select * from hw12;
+ОШИБКА:  отношение "hw12" не существует
+СТРОКА 1: select * from hw12;
+                        ^
+hw12=#  select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+(14 строк)
+
+
+hw12=# select distinct * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  6 | на                      |
+  4 | Silicon Valley season 1 |
+  2 | nyzno_practikovatsya    |
+  7 | максимум                |
+  5 | практикуюсь             |
+  3 | IT                      |
+(7 строк)
+
+
+hw12=# insert into word (word, vocabulary_id) values('have', 1), ('IP', 2), ('Kanban', 3);
+INSERT 0 3
+hw12=# insert into word (word, vocabulary_id) values('have', 7), ('TCP/IP', 2), ('Function', 3);
+INSERT 0 3
+hw12=# select * from word;
+ id |   word   | vocabulary_id
+----+----------+---------------
+  1 | have     |             1
+  2 | IP       |             2
+  3 | Kanban   |             3
+  4 | have     |             7
+  5 | TCP/IP   |             2
+  6 | Function |             3
+(6 строк)
+
+
+hw12=# select word from word where id > 5;
+   word
+----------
+ Function
+(1 строка)
+
+
+hw12=# select word from word where id > 3;
+   word
+----------
+ have
+ TCP/IP
+ Function
+(3 строки)
+
+
+hw12=# select word from word where vocabulary_id < 4 and id < 6;
+  word
+--------
+ have
+ IP
+ Kanban
+ TCP/IP
+(4 строки)
+
+
+hw12=# select id, word, vocabulary_id from word where vocabulary_id < 4 and id < 6;
+ id |  word  | vocabulary_id
+----+--------+---------------
+  1 | have   |             1
+  2 | IP     |             2
+  3 | Kanban |             3
+  5 | TCP/IP |             2
+(4 строки)
+
+
+hw12=# select vocabulary_id from word where vocabulary_id < 4
+hw12-# and id < 6 group by vocabulary_id;
+ vocabulary_id
+---------------
+             3
+             1
+             2
+(3 строки)
+
+
+hw12=# select count(*), vocabulary_id from word where vocabulary_id < 4
+hw12-# and id < 6 group by vocabulary_id;
+ count | vocabulary_id
+-------+---------------
+     1 |             3
+     1 |             1
+     2 |             2
+(3 строки)
+
+
+hw12=# select count(*), vocabulary_id from word where vocabulary_id < 4
+hw12-# and id < 6 group by vocabulary_id having count(*) > 1;
+ count | vocabulary_id
+-------+---------------
+     2 |             2
+(1 строка)
+
+
+hw12=# select * from word order by vocabulary_id;
+ id |   word   | vocabulary_id
+----+----------+---------------
+  1 | have     |             1
+  2 | IP       |             2
+  5 | TCP/IP   |             2
+  3 | Kanban   |             3
+  6 | Function |             3
+  4 | have     |             7
+(6 строк)
+
+
+hw12=# select * from word order by 3;
+ id |   word   | vocabulary_id
+----+----------+---------------
+  1 | have     |             1
+  2 | IP       |             2
+  5 | TCP/IP   |             2
+  3 | Kanban   |             3
+  6 | Function |             3
+  4 | have     |             7
+(6 строк)
+
+
+hw12=# select * from word order by 3, 2;
+ id |   word   | vocabulary_id
+----+----------+---------------
+  1 | have     |             1
+  2 | IP       |             2
+  5 | TCP/IP   |             2
+  6 | Function |             3
+  3 | Kanban   |             3
+  4 | have     |             7
+(6 строк)
+
+
+hw12=# select * from word order by 3, 2 limit 3;
+ id |  word  | vocabulary_id
+----+--------+---------------
+  1 | have   |             1
+  2 | IP     |             2
+  5 | TCP/IP |             2
+(3 строки)
+
+
+hw12=# select * from word order by 3, 2 limit 3 offset 3;
+ id |   word   | vocabulary_id
+----+----------+---------------
+  6 | Function |             3
+  3 | Kanban   |             3
+  4 | have     |             7
+(3 строки)
+
+
+hw12=# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ hw12          | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(10 строк)
+
+
+hw12=# select
+hw12-# word,
+hw12-#  vocabulary_id
+hw12-# from
+hw12-# hw12
+hw12-# order by
+hw12-# vocabulary_id
+hw12-# FETCH FIRST 1 ROW ONLY;
+ОШИБКА:  отношение "hw12" не существует
+СТРОКА 5: hw12
+          ^
+hw12=# select
+hw12-# vocabulary_id
+hw12-# word
+hw12-# from
+hw12-# word
+hw12-# order by
+hw12-# word
+hw12-# FETCH FIRST 1 ROW ONLY;
+ word
+------
+    1
+(1 строка)
+
+
+hw12=# select
+hw12-# vocabulary_id
+hw12-# word
+hw12-# from
+hw12-# word
+hw12-# order by
+hw12-# word
+hw12-# FETCH FIRST 4 ROW ONLY;
+ word
+------
+    1
+    2
+    2
+    3
+(4 строки)
+
+
+hw12=# select
+hw12-# vocabulary_id
+hw12-# word
+hw12-# from
+hw12-# word
+hw12-#  order by
+hw12-# word
+hw12-# OFFSET 5 ROWS
+hw12-# FETCH FIRST 5 ROW ONLY;
+ word
+------
+    7
+(1 строка)
+
+
+hw12=# update vocabulary
+hw12-# set name = 'я_учу_абдєйт'
+hw12-# where id = '3'
+hw12-# select *
+hw12-# from vocabulary
+hw12-# where id = 3
+hw12-#  select * from vocabulary;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "select")
+СТРОКА 4: select *
+          ^
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+(14 строк)
+
+
+hw12=# update top(3) vocabulary
+hw12-# set id = '33', id = null
+hw12-# ELECT TOP(3) *
+hw12-# select top(3)*
+hw12-# from vocabulary
+hw12-# select * from vocabulary;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "(")
+СТРОКА 1: update top(3) vocabulary
+                    ^
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  3 | IT                      |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+(14 строк)
+
+
+hw12=# update vocabulary
+hw12-# set id = 3, name = 'учу_абдєйт'
+hw12-# where id = 3;
+UPDATE 2
+hw12=# select * from vocabulary
+hw12-# select * from vocabulary;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "select")
+СТРОКА 2: select * from vocabulary;
+          ^
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  2 | nyzno_practikovatsya    |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  3 | учу_абдєйт              |
+  3 | учу_абдєйт              |
+(14 строк)
+
+
+hw12=# update vocabulary
+hw12-# set id = 2, name = 'экзамен_на_носу'
+hw12-# where id = 2
+hw12-#
+hw12-# update vocabulary
+hw12-# set id = 2, name = 'экзамен_на_носу'
+hw12-# where id = 2;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "update")
+СТРОКА 4: update vocabulary
+          ^
+hw12=# update vocabulary
+hw12-# set id = 2,  name = 'экзамен_на_носу'
+hw12-# where id = 2;
+UPDATE 2
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  3 | учу_абдєйт              |
+  3 | учу_абдєйт              |
+  2 | экзамен_на_носу         |
+  2 | экзамен_на_носу         |
+(14 строк)
+
+
+hw12=# delete from vocabulary
+hw12-# where id=6
+hw12-# select * from vocabulary;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "select")
+СТРОКА 3: select * from vocabulary;
+          ^
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  6 | на                      |
+  7 | максимум                |
+  3 | учу_абдєйт              |
+  3 | учу_абдєйт              |
+  2 | экзамен_на_носу         |
+  2 | экзамен_на_носу         |
+(14 строк)
+
+
+hw12=# delete from vocabulary
+hw12-# where id=6;
+DELETE 2
+hw12=# select * from vocabulary;
+ id |          name           | info
+----+-------------------------+------
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  7 | максимум                |
+  1 | HW_12_practice          |
+  4 | Silicon Valley season 1 |
+  5 | практикуюсь             |
+  7 | максимум                |
+  3 | учу_абдєйт              |
+  3 | учу_абдєйт              |
+  2 | экзамен_на_носу         |
+  2 | экзамен_на_носу         |
+(12 строк)
+
+
+hw12=#
+hw12=# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ hw12          | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(10 строк)
+
+
+hw12=# \c py6
+Вы подключены к базе данных "py6" как пользователь "postgres".
+py6=# \d py6
+Отношение "py6" не найдено.
+py6=# \c movie
+Вы подключены к базе данных "movie" как пользователь "postgres".
+movie=# \d movie
+Отношение "movie" не найдено.
+movie=# \d movies
+Отношение "movies" не найдено.
+movie=# TRUNCATE TABLE movie
+movie-# \l
+                                                            Список баз данных
+      Имя      | Владелец | Кодировка |     LC_COLLATE      |      LC_CTYPE       | локаль ICU | Провайдер локали |     Права доступа
+---------------+----------+-----------+---------------------+---------------------+------------+------------------+-----------------------
+ actors_avatar | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ films         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ hw12          | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movie         | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ movies        | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ postgres      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ py6           | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ sampledb      | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             |
+ template0     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+ template1     | postgres | UTF8      | Russian_Russia.1251 | Russian_Russia.1251 |            | libc             | =c/postgres          +
+               |          |           |                     |                     |            |                  | postgres=CTc/postgres
+(10 строк)
+
+
+movie-# \c py6
+Вы подключены к базе данных "py6" как пользователь "postgres".
+py6-# select * from word;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "select")
+СТРОКА 2: select * from word;
+          ^
+py6=#  create table vocabulary (id serial, name varchar (255), info text);
+ОШИБКА:  отношение "vocabulary" уже существует
+py6=#  create table practice_truncate (id serial, name varchar (255), info text);
+CREATE TABLE
+py6=# select * from practice_truncate;
+ id | name | info
+----+------+------
+(0 строк)
+
+
+py6=# TRUNCATE TABLE practice_truncate
+py6-# TRUNCATE TABLE practice_truncate;
+ОШИБКА:  ошибка синтаксиса (примерное положение: "TRUNCATE")
+СТРОКА 2: TRUNCATE TABLE practice_truncate;
+          ^
+py6=# TRUNCATE TABLE practice_truncate;
+TRUNCATE TABLE
+py6=# select * from practice_truncate;
+ id | name | info
+----+------+------
+(0 строк)
+
+
+py6=# TRUNCATE TABLE practice_truncate;
+TRUNCATE TABLE
+py6=# create table prac (id serial, name varchar (255), info text);
+CREATE TABLE
+py6=# create table jdhkv (id serial, name varchar (255), info text);
+CREATE TABLE
+py6=# \d
+                         Список отношений
+ Схема  |           Имя            |        Тип         | Владелец
+--------+--------------------------+--------------------+----------
+ public | jdhkv                    | таблица            | postgres
+ public | jdhkv_id_seq             | последовательность | postgres
+ public | prac                     | таблица            | postgres
+ public | prac_id_seq              | последовательность | postgres
+ public | practice_truncate        | таблица            | postgres
+ public | practice_truncate_id_seq | последовательность | postgres
+ public | vocabulary               | таблица            | postgres
+ public | vocabulary_id_seq        | последовательность | postgres
+ public | word                     | таблица            | postgres
+ public | word_id_seq              | последовательность | postgres
+(10 строк)
+
+
+py6=# drop table jdhkv, prac;
+DROP TABLE
+py6=# \d
+                         Список отношений
+ Схема  |           Имя            |        Тип         | Владелец
+--------+--------------------------+--------------------+----------
+ public | practice_truncate        | таблица            | postgres
+ public | practice_truncate_id_seq | последовательность | postgres
+ public | vocabulary               | таблица            | postgres
+ public | vocabulary_id_seq        | последовательность | postgres
+ public | word                     | таблица            | postgres
+ public | word_id_seq              | последовательность | postgres
+(6 строк)
+
+
+py6=#
+
+
+
+
+
+
+
